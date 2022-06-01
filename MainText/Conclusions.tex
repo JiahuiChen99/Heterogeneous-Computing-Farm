@@ -1,0 +1,51 @@
+\section{Conclusions and future work}
+
+    \subsection{Conclusions} \label{conclusions}
+        In this project, a functional smart device-agnostic orchestrator has been developed to address the increasing adoption of heterogeneous hardware and software in the cluster environment.
+        
+        The main focus of the project was on the elaboration of a MVP software that could be expanded in the future. Its modular architecture and decoupling of concerns permits new features to be added as new requirements appear.
+        
+        In summary, the work provides system administrators an easy-to-use front-end to interact with an orchestrator with support for service discovery and matching for application deployment.
+        
+        From my personal point of view, I culminated all the knowledge and abilities acquired during the undergraduate into this final project. The achievement of this has been achieved thanks to the knowledge learned during this period. In following table \ref{tab:concepts}, the relation of multiple subjects' concepts applied to the different sections of the project is shown.
+        
+        \begin{table}[H]
+            \centering
+            \caption{CS bachelor subjects and its applications in the Yako platform}
+            \begin{tabularx}{\linewidth}{|X|X|}
+                \hline
+                \rowcolor[HTML]{C0C0C0}
+                \textbf{CS Undergraduate subject} & \textbf{Usage in the project} \\ \hline
+                Design and Usability & Wireframing and YakoUI front-end application UI design \\ \hline
+                Data Structures and Algorithms & Back-end orchestrator software algorithms \\ \hline
+                Web programming I and II & Front-end application and API interfacing \\ \hline
+                Local Area Networks and Networks Interconnection & Services interconnection, sockets and networking interfacing \\ \hline
+                Distributed Systems & Yako platform architecture \\ \hline
+                System Design and Administration & Metrics extraction, Linux administration \\ \hline
+                Software Methodologies I and II & Sequence diagrams, UML and software patterns \\ \hline
+                Operating Systems and Advanced Operating Systems & Sytem resources and processes threading \\ \hline
+                Project Management and Agile & Project planning and scheduling \\ \hline
+            \end{tabularx}
+            \label{tab:concepts}
+        \end{table}
+        
+    \subsection{Future work} \label{future_work}
+        For this project two pieces software have been developed, during its realisation many features was presented on the design phase. However, some of those ended not being included to the MVP for being neither critical nor imperative. The following paragraphs cover the future line of work for the Yako platform.
+        
+        Features to be improved or added to the back-end software:
+        
+        \begin{itemize}
+            \item Support for YakoMaster nodes fault tolerance using leader election algorithm \cite{amazon_inc_leader_nodate} with the already implemented Apache Zookeeper. The Yako platform would be able to operative even if a YakoMaster stops working.
+            \item One feature that was placed to one side, was the support of virtualized deployments with the Linux kernel cgroups \cite{the_linux_foundation_control_nodate}. Virtualizing software not only adds a new layer of security but also isolation at the hardware level. In that case YakoMaster would also become a high-level hypervisor that would be able to control the allocation of resources.
+            \item Port the YakoAgent to other OS platforms to support more diversity. 
+            \item Add support for more filters and system requirements for a smarter deployment node selection.
+            \item Add more endpoints to manage resources like application re-deployment post-upload or to query specific agent's information.
+            \item Sandboxing \cite{check_point_what_nodate} the applications to test against malware before the real deployment.
+            \item Including an authentication system would prevent unauthorized users to interact with the platform.
+        \end{itemize}
+        
+        Different aspects of the front-end software could also be improved:
+        \begin{itemize}
+            \item As mentioned in the previous section, better UI and more visual widgets could be developed to represent the insights the orchestrator provides. This makes the data more natural for the human mind to comprehend and therefore makes it identify patterns.
+            \item Redirecting agent's logging to the front-end and reporting errors notification. Currently these are shown in their respective nodes consoles.
+        \end{itemize}

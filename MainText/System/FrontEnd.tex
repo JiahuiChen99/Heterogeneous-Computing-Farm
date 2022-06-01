@@ -1,0 +1,45 @@
+\subsubsection{Run the front-end}
+    \subsubsubsection{Dependencies}
+        Firstly, ensure that the following two tools are installed in the system. The installation of NPM is generally bundled into NodeJS.
+        
+        \begin{enumerate}
+            \item \href{https://nodejs.org/en/}{NodeJS}
+            \item \href{https://www.npmjs.com/package/npm}{Node Package Manager (NPM)}
+        \end{enumerate}
+        
+    \subsubsubsection{Compilation}
+        The front-end application's dependencies and other meta-data are located into the package.json. Firstly, installing these libraries is required. Secondly, table \ref{tab:npm_scripts} lists all pre-defined commands to build the application.
+        
+        \begin{code}
+            \inputminted[
+                frame=lines,
+                framesep=2mm,
+                baselinestretch=1,
+                bgcolor=LightGray,
+                fontsize=\footnotesize,
+                breaklines=true,
+                linenos
+            ]{bash}{Code/Deploy/npm_install.sh}
+            \caption{Install project dependencies}
+            \label{code:npm_install}
+        \end{code}
+        
+        \begin{table}[H]
+            \centering
+            \caption{NPM scripts in package.json}
+            \begin{tabularx}{\linewidth}{|l|>{\raggedright}p{70mm}|X|}
+            \hline
+            \rowcolor[HTML]{C0C0C0}
+            \textbf{Rule} & \textbf{Script} & \textbf{Description} \\ \hline
+            serve & vue-cli-service serve & Starts a development server served on the browser \\ \hline
+            build & vue-cli-service build & Builds application to be served on the browser \\ \hline
+            lint & vue-cli-service lint & Analyse code for potential errors \\ \hline
+            electron:serve & vue-cli-service electron:serve & Starts a development application server \\ \hline
+            build-win & vue-cli-service electron:build --win --ia32 --x64 --publish=onTagOrDraft & Builds the desktop application for Windows OS 32-bits and 64-bits architecture \\ \hline
+            build-mac & vue-cli-service electron:build --mac --publish=onTagOrDraft" & Builds the desktop application for macOS \\ \hline
+            build-linux & vue-cli-service electron:build --linux --publish=onTagOrDraft & Builds the desktop application for Linux \\ \hline
+            \end{tabularx}
+            \label{tab:npm_scripts}
+        \end{table}
+    
+        For Windows OS systems, the application can be compiled as an installer or a portable executable for both 32-bits and 64-bits architecture systems. For MacOS, the bundled application is both instalable and portable. For Linux based system, different installers for different Linux distributions are generated. Please refer to the specific OS flavour official manual to install its packages.

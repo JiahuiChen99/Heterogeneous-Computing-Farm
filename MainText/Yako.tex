@@ -1,0 +1,22 @@
+\section{Yako} \label{yako}
+     The implementation of the project is divided into two parts. On one hand, a back-end, where the orchestrator operates, where logic and computation take place. On the other hand, the front-end, a client that acts as a gateway to interact with all the computational resources available on the server side. A detailed description of all the fractions that comprises the project will be presented in the following sections.
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{Backend/Simple Architecture.png}
+        \caption{Yako platform simple architecture: (left) front-end application (right) orchestrator and services}
+        \label{fig:simple_architecture}
+    \end{figure}
+    
+    Figure \ref{fig:simple_architecture} represents the internal interconnection of the different components of the platform. An example of a more complex and extended system will be described at the end of this chapter on figure \ref{fig:complex_architecture}.
+ 
+    \input{MainText/Backend/BackEnd}
+    \input{MainText/Frontend/FrontEnd}
+    
+    \subsection{Run the system}
+    
+        This section describes the steps to run the Yako platform, both back-end and front-end software.
+        
+        % Steps to run the entire system
+        \input{MainText/System/BackEnd}
+        \input{MainText/System/FrontEnd}
