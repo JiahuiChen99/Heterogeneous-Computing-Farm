@@ -10,3 +10,7 @@ computers that brought humans into space during the last century. These devices 
 the periphery, the edge layer, and are often diverse in nature. We want to make use of this
 computing power that would otherwise be wasted.The novelty results are twofold: an open-source orchestrator that handles heterogeneous computing agents; an open-source front-end
 application to interact with these.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/JiahuiChen99/Heterogeneous-Computing-Farm/main/Images/Yako%20Platform%20Archiecture.png" alt="Yako Platform Architecture"/>
+</p>
