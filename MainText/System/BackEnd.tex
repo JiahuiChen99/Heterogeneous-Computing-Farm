@@ -1,0 +1,267 @@
+\subsubsection{Run the back-end}
+
+    \subsubsubsection{Dependencies}
+        Before being able to compile YakoMaster, YakoAgent and YakoAgent (IoT), projects tools and dependencies must be installed in the system. All three applications are programmed in Golang, Google's open-sourced programming language.
+        
+        The following enumeration lists all the tools required to compile the platform.
+    
+        \begin{enumerate}
+            \item \href{https://go.dev/dl/}{Golang v1.17.x or greater}
+            \item \href{https://www.gnu.org/software/make/}{Make}
+            \item \href{https://zookeeper.apache.org/releases.html}{Apache Zookeeper}
+            \item \href{https://grpc.io/docs/languages/go/quickstart/}{gRPC}
+            \item \href{https://developers.google.com/protocol-buffers}{Protocol buffers compiler (Protobuf)}
+            \item \href{https://mosquitto.org/download/}{Eclipse Mosquitto MQTT Broker}
+        \end{enumerate}
+
+    \subsubsubsection{Compilation}
+        A Makefile is available in the source code repository. Table \ref{tab:yako_make} lists all the predefined make rules. 
+
+        \begin{table}[H]
+            \centering
+            \caption{Makefile rules for make}
+            \begin{tabularx}{\linewidth}{|l|>{\raggedright}p{70mm}|X|}
+            \hline
+            \rowcolor[HTML]{C0C0C0}
+            \textbf{Rule} & \textbf{Script} & \textbf{Description} \\ \hline
+            gen\_proto & protoc --proto\_path=src/grpc/proto/ --go-grpc\_opt = require\_unimplemented\_servers = false --go\_out=src/grpc/ --go-grpc\_out=src/grpc/ src/grpc/proto/\*.proto & Generates the protobufs code used by the gRPC client \& server from the .proto source code \\ \hline
+            
+            clean & rm src/grpc/pb/*.go & Cleans the generated protobuf files \\ \hline
+            
+            build\_master & go build src/yako\_master/YakoMaster.go & Compiles YakoMaster \\ \hline
+            
+            run\_master & ./src/yako\_master/YakoMaster \$(ip) \$(port) \$(zk\_ip) \$(zk\_port) \$(mqtt\_ip) \$(mqtt\_port) & Runs the YakoMaster \\ \hline
+            
+            build\_agent & go build src/yako\_node/YakoAgent.go & Compiles YakoAgent \\ \hline
+            
+            run\_agent & ./src/yako\_node/YakoAgent \$(ip) \$(port) \$(zk\_ip) \$(zk\_port) & Runs the YakoAgent \\ \hline
+            
+            build\_agent\_iot & go build src/yako\_agent\_iot/YakoAgentIoT.go & Compiles YakoAgent (IoT) \\ \hline
+            
+            run\_agent\_iot & ./src/yako\_agent\_iot/YakoAgentIoT \$(ip) \$(port) \$(mqtt\_ip) \$(mqtt\_port) & Runs the YakoMaster (IoT) \\ \hline
+            \end{tabularx}
+            \label{tab:yako_make}
+        \end{table}
+        
+        \subsubsubsubsection{gRPC and Protocol Buffers}
+            gRPC stubs and procedures must be generated before proceeding with the project setup.
+            Ensure that the system have these Go plugins installed, used for protocol buffers' compilation. This includes Golang gRPC and Golang Protocol Buffers compiler. Generate the Go gRPC source code by executing running the following code snippet.
+
+            \begin{code}
+                \inputminted[
+                    frame=lines,
+                    framesep=2mm,
+                    baselinestretch=1,
+                    bgcolor=LightGray,
+                    fontsize=\footnotesize,
+                    breaklines=true,
+                    linenos
+                ]{bash}{Code/Deploy/install_grpc_deps.sh}
+                \caption{Golang gRPC dependencies Installation}
+                \label{code:install_grpc_deps}
+            \end{code}
+            
+            Yako platform software dependencies are located in the modules file go.mod, these must be installed first. Download these using snippet \ref{code:mod_tidy}. Finally, to build all three programs run code snippet \ref{code:compile}.
+            
+            \begin{code}
+                \inputminted[
+                    frame=lines,
+                    framesep=2mm,
+                    baselinestretch=1,
+                    bgcolor=LightGray,
+                    fontsize=\footnotesize,
+                    breaklines=true,
+                    linenos
+                ]{bash}{Code/Deploy/mod_tidy.sh}
+                \caption{Download and install Golang Dependencies}
+                \label{code:mod_tidy} 
+            \end{code}
+
+            \begin{code}
+                \inputminted[
+                    frame=lines,
+                    framesep=2mm,
+                    baselinestretch=1,
+                    bgcolor=LightGray,
+                    fontsize=\footnotesize,
+                    breaklines=true,
+                    linenos
+                ]{bash}{Code/Deploy/compile.sh}
+                \caption{Yako platform compilation}
+                \label{code:compile} 
+            \end{code}
+        
+    \subsubsubsection{Execution}
+        Before running the Yako platform software, ZK and the Mosquitto MQTT broker must be fired up first. 
+        \subsubsubsubsection{Zookeeper}
+            To start or stop ZK, one must access the directory where Apache Zookeeper has been installed. Otherwise, if the binaries are loaded into the system PATH running code snippet \ref{code:run_zk} will do the work.
+            
+            \begin{code}
+                \inputminted[
+                    frame=lines,
+                    framesep=2mm,
+                    baselinestretch=1,
+                    bgcolor=LightGray,
+                    fontsize=\footnotesize,
+                    breaklines=true,
+                    linenos
+                ]{bash}{Code/Deploy/run_zk.sh}
+                \caption{Start/Stop Apache Zookeeper}
+                \label{code:run_zk} 
+            \end{code}
+            
+            The ZK configuration, zoo.cfg file, is stored in the /conf directory relative to the installed ZK path. To monitor and troubleshoot ZK, the provided Java client or C binary can be used.
+            An example of the configuration file  \ref{code:zoo_conf} can be found in the project at Yako/src/utils/zookeeper/zoo.cnf. The highlighted line of code \ref{code:zoo_conf} should be replaced for the local ZK installation logs folder or a preferred custom path. In this configuration ZK also fires an administrator panel up at port 8081, it can be accessed with a browser on <zk\_ip>:8081/commands.
+
+            \begin{code}
+                \inputminted[
+                    frame=lines,
+                    framesep=2mm,
+                    baselinestretch=1,
+                    bgcolor=LightGray,
+                    fontsize=\footnotesize,
+                    escapeinside=||,
+                    breaklines=true,
+                    linenos
+                ]{apacheconf}{Code/Deploy/zoo.cfg}
+                \caption{Apache Zookeeper Configuration file}
+                \label{code:zoo_conf}
+            \end{code}
+
+        \subsubsubsubsection{Mosquitto MQTT Broker}
+            A configuration file is provided in the source code. The Mosquitto configuration file will set the broker to listen to the specified port, in the example below it starts the service at port 8002. For testing purposes, the broker also allows unauthenticated clients, Disable this property is recommended in production environment for security reasons. More specific documentation of Mosquitto broker can be found at its \textbf{\href{https://mosquitto.org/man/mosquitto-conf-5.html}{official website}}.
+
+            \begin{code}
+                \inputminted[
+                    frame=lines,
+                    framesep=2mm,
+                    baselinestretch=1,
+                    bgcolor=LightGray,
+                    fontsize=\footnotesize,
+                    breaklines=true,
+                    linenos
+                ]{apacheconf}{Code/Deploy/mosquitto.conf}
+                \caption{Mosquitto MQTT Configuration file}
+                \label{code:moquitto_conf}
+            \end{code}
+
+            Run the following command to start the MQTT broker. Appending a \& sign at the end makes the command run in the background.
+            
+            \begin{code}
+                \inputminted[
+                    frame=lines,
+                    framesep=2mm,
+                    baselinestretch=1,
+                    bgcolor=LightGray,
+                    fontsize=\footnotesize,
+                    breaklines=true,
+                    linenos
+                ]{bash}{Code/Deploy/run_mosquitto.sh}
+                \caption{Start Mosquitto MQTT broker}
+                \label{code:run_mosquitto}
+            \end{code}
+
+        \subsubsubsubsection{YakoMaster}
+            YakoMaster accepts a total of six arguments. The first two arguments, firstly the IP and secondly the port, are used to specify the socket of the machine where it will be run. The next two arguments are used to specify the socket of the ZK service registry machine that could be located in a separate physical machine. The final two arguments are needed to specify the location of the Mosquitto MQTT Broker.
+    
+            - Make rule:
+            
+            \begin{code}
+                \inputminted[
+                    frame=lines,
+                    framesep=2mm,
+                    baselinestretch=1,
+                    bgcolor=LightGray,
+                    fontsize=\footnotesize,
+                    breaklines=true,
+                    linenos
+                ]{bash}{Code/Deploy/yakomaster_deploy_make.sh}
+                \caption{YakoMaster make rule}
+                \label{code:yakomaster_deploy_make}
+            \end{code}
+            
+            - Manual deploy:
+            
+            \begin{code}
+                \inputminted[
+                    frame=lines,
+                    framesep=2mm,
+                    baselinestretch=1,
+                    bgcolor=LightGray,
+                    fontsize=\footnotesize,
+                    breaklines=true,
+                    linenos
+                ]{bash}{Code/Deploy/yakomaster_deploy.sh}
+                \caption{YakoMaster manual deploy}
+                \label{code:yakomaster_deploy}
+            \end{code}
+
+        \subsubsubsubsection{YakoAgent}
+            To deploy a YakoAgent, four arguments must be passed, the first two are the agent's machine IP and Port, while the last two are the location of the service registry. On connection, YakoMaster will be automatically notified.
+            
+            - Make rule:
+            
+            \begin{code}
+                \inputminted[
+                    frame=lines,
+                    framesep=2mm,
+                    baselinestretch=1,
+                    bgcolor=LightGray,
+                    fontsize=\footnotesize,
+                    breaklines=true,
+                    linenos
+                ]{bash}{Code/Deploy/yakoagent_deploy_make.sh}
+                \caption{YakoAgent make rule}
+                \label{code:yakoagent_deploy_make}
+            \end{code}
+            
+            - Manual deploy:
+                
+            \begin{code}
+                \inputminted[
+                    frame=lines,
+                    framesep=2mm,
+                    baselinestretch=1,
+                    bgcolor=LightGray,
+                    fontsize=\footnotesize,
+                    breaklines=true,
+                    linenos
+                ]{bash}{Code/Deploy/yakoagent_deploy.sh}
+                \caption{YakoAgent manual deploy}
+                \label{code:yakoagent_deploy}
+            \end{code}
+        
+        \subsubsubsubsection{YakoAgent (IoT)}
+            To deploy a YakoAgent (IoT), four arguments must be assigned, the device's location and the Mosquitto MQTT broker socket.
+            
+            - Make rule:
+            
+            \begin{code}
+                \inputminted[
+                    frame=lines,
+                    framesep=2mm,
+                    baselinestretch=1,
+                    bgcolor=LightGray,
+                    fontsize=\footnotesize,
+                    breaklines=true,
+                    linenos
+                ]{bash}{Code/Deploy/yakoagentiot_deploy_make.sh}
+                \caption{YakoAgent (IoT) make rule}
+                \label{code:yakoagentiot_deploy_make}
+            \end{code}
+            
+            - Manual deploy:
+            
+            \begin{code}
+                \inputminted[
+                    frame=lines,
+                    framesep=2mm,
+                    baselinestretch=1,
+                    bgcolor=LightGray,
+                    fontsize=\footnotesize,
+                    breaklines=true,
+                    linenos
+                ]{bash}{Code/Deploy/yakoagentiot_deploy.sh}
+                \caption{YakoAgent (IoT) manual deploy}
+                \label{code:yakoagentiot_deploy}
+            \end{code}

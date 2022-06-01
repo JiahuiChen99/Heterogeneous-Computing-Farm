@@ -1,0 +1,1 @@
+./YakoAgentIoT <IP> <Port> <MQTT IP> <MQTT Port>

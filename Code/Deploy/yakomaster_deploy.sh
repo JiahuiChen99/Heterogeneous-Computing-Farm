@@ -1,0 +1,1 @@
+./YakoMaster <IP> <Port> <ZK IP> <ZK Port> <MQTT IP> <MQTT Port>

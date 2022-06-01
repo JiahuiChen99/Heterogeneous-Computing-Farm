@@ -1,0 +1,53 @@
+%----------------------------------------------------------------------------------------
+%	VALUES FOR THE THESIS
+%----------------------------------------------------------------------------------------
+
+\newcommand{\name}{Jiahui Chen} % Author name
+\newcommand{\thesistitle}{Heterogeneous Computing Farm} % Title of the thesis
+\newcommand{\submissiondate}{May 31st, 2022} % Submission date "Month, year"
+\newcommand{\supervisor}{Dr. Joan Navarro Martín} % Supervisor name
+\newcommand{\cosupervisor}{Dra. Anna Carreras Coch} % Co-Supervisor name, comment this line if there is none
+
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY STYLE (APA BibLaTeX)
+%----------------------------------------------------------------------------------------
+\usepackage[style=apa,backend=biber,citestyle=authoryear]{biblatex}
+\addbibresource{./Preamble/references.bib} % The references information are stored in the file named "references.bib"
+\usepackage{letltxmacro}\LetLtxMacro{\cite}{\parencite}
+
+\newrobustcmd*{\parentexttrack}[1]{ % Square brackets citation
+  \begingroup
+  \blx@blxinit
+  \blx@setsfcodes
+  \blx@bibopenparen#1\blx@bibcloseparen
+  \endgroup}
+\AtEveryCite{%
+  \let\parentext=\parentexttrack%
+  \let\bibopenparen=\bibopenbracket%
+  \let\bibcloseparen=\bibclosebracket}
+\makeatother
+\renewcommand{\cite}{\parencite}
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES (be careful of package interaction)
+%----------------------------------------------------------------------------------------
+
+\usepackage{amsthm,amsmath,amssymb,amsfonts,bbm}% Math symbols
+
+%----------------------------------------------------------------------------------------
+%   DEFINITIONS AND COMMANDS
+%----------------------------------------------------------------------------------------
+
+\newcommand{\numberedsection}{ % Preparation for numbered chapters
+	\cleardoublepage % To make sure the previous headers are passed
+	\fancyhead[RE]{{\bfseries \leftmark}}% Headers for left pages
+	\fancyhead[LO]{{\bfseries \rightmark}}% Headers for right pages
+}
+
+\newcommand{\unnumberedsection}[1]{ % Preparation for unnumbered chapters
+	\cleardoublepage % To make sure the previous headers are passed
+	\phantomsection % To make sure the table of content links to the right page
+	\addcontentsline{toc}{section}{#1} % Also adds the chapter name to the Contents
+	\fancyhead[RE]{{\bfseries #1}} % Headers for left pages
+	\fancyhead[LO]{} %Headers for right pages
+}
