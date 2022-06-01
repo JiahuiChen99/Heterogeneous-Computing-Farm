@@ -1,0 +1,56 @@
+{
+    "yako_masters": {
+      "socket": "127.0.0.1:8001",
+      "sys_info": {
+        "sys_name": "Yako",
+        "node_nme": "YakoAgent",
+        "release": "Linux",
+        "version": "5.18",
+        "machine": "x86_64"
+      },
+      "cpu_list": [
+        {
+          "cpuName": "Intel(R) Core(TM) i7-8550U CPU @ 2.00GHz",
+          "cpuCores": 4,
+          "socket": 0,
+          "cores": [
+            {
+              "processor": {
+                "value": "0"
+              },
+              "coreID": {
+                "value": "0"
+              }
+            },
+            {
+              "processor": {
+                "value": "0"
+              },
+              "coreID": {
+                "value": "1"
+              }
+            }
+          ]
+        }
+      ],
+      "gpu_list": [
+        {
+          "gpuName": "NVIDIA GeForce GTX 1050 Max-Q",
+          "gpuID": "0000-1000",
+          "busID": "0",
+          "IRQ": 0,
+          "major": 124,
+          "minor": 0
+        }
+      ],
+      "memory": {
+        "total": 16384,
+        "free": 8908.8,
+        "swap": 0,
+        "freeSwap": 0
+      }
+    },
+    "yako_agents": {
+        ...
+    }
+  }

@@ -1,0 +1,28 @@
+// node.proto defines the services and RPCs a YakoAgent exposes
+syntax = "proto3";
+// gRPC package
+package yako;
+import "google/protobuf/empty.proto";
+import "cpu.proto";
+import "gpu.proto";
+import "memory.proto";
+import "sysinfo.proto";
+import "deploy.proto";
+
+// Go related package
+option go_package = "yako/";
+
+
+// Defines the services that a yako node offers
+service NodeService {
+  // Retrieves system general information
+  rpc GetSystemInformation(google.protobuf.Empty) returns (yako.SysInfo);
+  // Retrieves system CPU related information
+  rpc GetSystemCpuInformation(google.protobuf.Empty) returns (yako.CpuList);
+  // Retrieves system GPU related information
+  rpc GetSystemGpuInformation(google.protobuf.Empty) returns (yako.GpuList);
+  // Retrieves system main memory related information
+  rpc GetSystemMemoryInformation(google.protobuf.Empty) returns (yako.Memory);
+  // Transfer & deploy application to the YakoAgent
+  rpc DeployAppToAgent(stream Chunk) returns (yako.DeployStatus);
+}

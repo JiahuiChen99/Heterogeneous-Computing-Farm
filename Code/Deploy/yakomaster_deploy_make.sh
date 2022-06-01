@@ -1,0 +1,1 @@
+make run_master ip=<IP> port=<Port> zk_ip=<ZK IP> zk_port=<ZK Port> mqtt_ip=<MQTT IP> mqtt_port=<MQTT Port>

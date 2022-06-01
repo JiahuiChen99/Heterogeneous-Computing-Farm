@@ -1,0 +1,1 @@
+make run_agent_iot ip=<IP> port=<Port> mqtt_ip=<MQTT IP> mqtt_port=<MQTT Port>
