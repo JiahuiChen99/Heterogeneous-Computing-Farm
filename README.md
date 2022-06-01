@@ -12,5 +12,5 @@ computing power that would otherwise be wasted.The novelty results are twofold: 
 application to interact with these.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/JiahuiChen99/Heterogeneous-Computing-Farm/main/Images/Yako%20Platform%20Archiecture.png" alt="Yako Platform Architecture"/>
+  <img src="https://raw.githubusercontent.com/JiahuiChen99/Heterogeneous-Computing-Farm/main/Images/Yako%20Platform%20Architecture.png" alt="Yako Platform Architecture"/>
 </p>
